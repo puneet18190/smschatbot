@@ -26,7 +26,7 @@ class HomeController < ApplicationController
 	  	@client = Twilio::REST::Client.new ENV['TWILIO_SECRET'], ENV['TWILIO_TOKEN']
 	  	@res = []
 	  	@records.each do |c|
-		  	@res << client.messages.create({
+		  	@res << c.messages.create({
 			    from: ENV['TWILIO_NUMBER'],
 			    to: c.mobile,
 			    body: 'What was your revenue last month?'
