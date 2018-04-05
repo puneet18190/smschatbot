@@ -26,15 +26,24 @@ class HomeController < ApplicationController
 	  	@client = Twilio::REST::Client.new ENV['TWILIO_SECRET'], ENV['TWILIO_TOKEN']
 	  	@res = []
 	  	@records.each do |c|
-		  	@res << @client.messages.create({
+		  	@res = @client.messages.create({
 			    from: ENV['TWILIO_NUMBER'],
 			    to: c.mobile,
 			    body: 'What was your revenue last month?'
 			  })
 			end
-			render json: {status: true, data: @res}
+      puts @res
+			render json: {status: true}
 		rescue Exception => e
 			render json: {status: false, data: e.message}
 		end
+  end
+
+  def receive_sms
+    # binding.pry
+    twiml = Twilio::TwiML::Response.new do |r|
+      # binding.pry
+      r.Message 'The Robots are coming! Head for the hills!'
+    end
   end
 end
